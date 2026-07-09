@@ -23,10 +23,20 @@ Crucially, **this tool is 100% read-only**. It relies entirely on the local `az`
 
 ## Installation
 
+### Using Homebrew (macOS & Linux)
+
+The easiest way to install `azure-ssh-tui` is via Homebrew:
+
+```bash
+brew trust shyamnborole/tap
+brew tap shyamnborole/tap
+brew install az-ssh
+```
+
 ### From Source
 
 ```bash
-git clone https://github.com/shyamborole/azure-ssh-tui.git
+git clone https://github.com/shyamnborole/azure-ssh-tui.git
 cd azure-ssh-tui
 make build
 ./bin/azure-ssh-tui
