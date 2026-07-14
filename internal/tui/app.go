@@ -11,6 +11,7 @@ import (
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 	"github.com/shyamborole/azure-ssh-tui/internal/azure"
 	"github.com/shyamborole/azure-ssh-tui/internal/config"
 	"github.com/shyamborole/azure-ssh-tui/internal/tui/components"
@@ -60,6 +61,12 @@ type App struct {
 	
 	animFrame int
 	targetCmd *exec.Cmd
+
+	version string
+}
+
+func (a *App) SetVersion(version string) {
+	a.version = version
 }
 
 func (a *App) SetHistoryMode(history []config.HistoryEntry) {
@@ -501,7 +508,7 @@ func (a *App) View() string {
 		table := a.vmTable.View()
 
 		helpStr := "↑/↓: navigate • s/enter: ssh • J: set jump host • /: search • tab: switch sub • r: refresh • q: quit"
-		help := renderFooter(helpStr, a.width)
+		help := a.renderFooter(helpStr)
 
 		return fmt.Sprintf("%s%s\n%s\n%s", header, searchBar, table, help)
 	case StateSSHConfirm:
@@ -529,7 +536,7 @@ func (a *App) View() string {
 			helpStr += " • j: jump host"
 		}
 		helpStr += " • esc: cancel"
-		help := renderFooter(helpStr, a.width)
+		help := a.renderFooter(helpStr)
 
 		return fmt.Sprintf("%s\n\n%s\n\n%s", header, promptBox, help)
 
@@ -560,6 +567,11 @@ func (a *App) View() string {
 	return ""
 }
 
-func renderFooter(left string, width int) string {
-	return StatusBarStyle.Width(width).Render(left)
+func (a *App) renderFooter(left string) string {
+	right := a.version
+	pad := a.width - lipgloss.Width(left) - lipgloss.Width(right) - 2
+	if pad < 0 {
+		pad = 0
+	}
+	return StatusBarStyle.Width(a.width).Render(left + strings.Repeat(" ", pad) + right)
 }

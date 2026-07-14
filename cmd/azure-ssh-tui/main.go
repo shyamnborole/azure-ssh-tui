@@ -12,6 +12,8 @@ import (
 	"github.com/shyamborole/azure-ssh-tui/internal/tui"
 )
 
+var version = "dev"
+
 func main() {
 	setupLogging()
 
@@ -35,6 +37,7 @@ func main() {
 		} else if os.Args[1] == "history" {
 			client := azure.NewClient()
 			app := tui.NewApp(client)
+			app.SetVersion(version)
 			
 			cfg := config.Load()
 			app.SetHistoryMode(cfg.History)
@@ -50,6 +53,7 @@ func main() {
 
 	client := azure.NewClient()
 	app := tui.NewApp(client)
+	app.SetVersion(version)
 
 	p := tea.NewProgram(app, tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {
