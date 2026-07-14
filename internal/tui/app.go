@@ -11,7 +11,6 @@ import (
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/lipgloss"
 	"github.com/shyamborole/azure-ssh-tui/internal/azure"
 	"github.com/shyamborole/azure-ssh-tui/internal/config"
 	"github.com/shyamborole/azure-ssh-tui/internal/tui/components"
@@ -562,10 +561,5 @@ func (a *App) View() string {
 }
 
 func renderFooter(left string, width int) string {
-	right := "By SHYAM"
-	pad := width - lipgloss.Width(left) - lipgloss.Width(right) - 2
-	if pad < 0 {
-		pad = 0
-	}
-	return StatusBarStyle.Width(width).Render(left + strings.Repeat(" ", pad) + right)
+	return StatusBarStyle.Width(width).Render(left)
 }

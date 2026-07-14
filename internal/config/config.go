@@ -38,10 +38,10 @@ func (c *Config) AddHistory(entry HistoryEntry) {
 			newHistory = append(newHistory, h)
 		}
 	}
-	
+
 	// Add to front
 	c.History = append([]HistoryEntry{entry}, newHistory...)
-	
+
 	// Truncate to 5
 	if len(c.History) > 5 {
 		c.History = c.History[:5]
